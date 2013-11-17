@@ -1,0 +1,27 @@
+{
+  "name": "locomotive-drywall-seed",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "async": "~0.2.9",
+    "locomotive": "0.3.x",
+    "express": "~3.4.1",
+    "connect-powered-by": "0.1.x",
+    "connect-mongo": "~0.3.3",
+    "emailjs": "~0.3.6",
+    "findit2": "~0.2.0",
+    "jade": "~0.35.0",
+    "jshint": "~2.1.11",
+    "mongoose": "~3.6.20",
+    "passport": "~0.1.17",
+    "passport-local": "~0.1.6",
+    "passport-oauth": "~1.0.0",
+    "passport-facebook": "~1.0.1",
+    "passport-github": "~0.1.5",
+    "passport-twitter": "~1.0.2",
+    "recess": "~1.1.9",
+    "uglify-js": "~2.4.0",
+    "watchr": "~2.4.4",
+    "locomotive-mongoose": "~0.1.0"
+  }
+}
