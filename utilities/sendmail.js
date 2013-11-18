@@ -1,6 +1,6 @@
 'use strict';
 
-exports = module.exports = function(req, res, options) {
+exports = module.exports = function(ctrl, options) {
   /* options = {
     from: String, 
     to: String,
@@ -16,7 +16,7 @@ exports = module.exports = function(req, res, options) {
   } */
   
   var renderText = function(callback) {
-    res.render(options.textPath, options.locals, function(err, text) {
+    ctrl.render(options.textPath, options.locals, function(err, text) {
       if (err) {
         callback(err, null);
       }
@@ -28,7 +28,7 @@ exports = module.exports = function(req, res, options) {
   };
   
   var renderHtml = function(callback) {
-    res.render(options.htmlPath, options.locals, function(err, html) {
+    ctrl.render(options.htmlPath, options.locals, function(err, html) {
       if (err) {
         callback(err, null);
       }
@@ -69,7 +69,7 @@ exports = module.exports = function(req, res, options) {
       }
       
       var emailjs = require('emailjs/email');
-      var emailer = emailjs.server.connect( req.app.get('smtp-credentials') );
+      var emailer = emailjs.server.connect( ctrl.app.get('smtp-credentials') );
       emailer.send({
         from: options.from,
         to: options.to,

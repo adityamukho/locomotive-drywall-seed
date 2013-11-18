@@ -1,6 +1,6 @@
 var passport = require('passport');
 
-module.exports = function(done) {
+module.exports = function() {
 	var self = this;
 	
 	var LocalStrategy = require('passport-local').Strategy,
@@ -107,6 +107,4 @@ module.exports = function(done) {
 			}
 		});
 	});
-
-	done();
 };

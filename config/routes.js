@@ -18,10 +18,9 @@ module.exports = function routes() {
 
 	//Signup
 	this.namespace('signup', function() {
-		this.get('/', 'basic#index');
-		this.post('/', 'basic#signup');
-
-		this.post('social', 'social#signup');
+		this.get('/', 'signup#index');
+		this.post('/', 'signup#signup');
+		this.post('social', 'signup#socialSignup');
 
 		this.get('twitter', passport.authenticate('twitter', {
 			callbackURL: '/signup/twitter/callback/'
@@ -29,7 +28,16 @@ module.exports = function routes() {
 		this.get('twitter/callback', 'twitter#signup');
 	});
 
-	//404
+	//Account
+	this.namespace('account', function() {
+		this.get('/', 'account#index');
+		this.get('verification', 'account#indexVerify');
+		this.post('verification', 'account#resendVerification');
+		this.get('verification/:token', 'account#verify');
+	});
+
+	//404 - Must be the last route to be defined!
 	this.match('*', 'pages#notFound', {
 		via: ['POST', 'GET']
 	});
+};

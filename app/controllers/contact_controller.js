@@ -33,7 +33,7 @@ ContactController.sendMessage = function() {
 	});
 
 	workflow.on('sendEmail', function() {
-		self.app.utility.sendmail(req, res, {
+		self.app.utility.sendmail(self, {
 			from: req.app.get('smtp-from-name') + ' <' + req.app.get('smtp-from-address') + '>',
 			replyTo: req.body.email,
 			to: req.app.get('system-email'),
