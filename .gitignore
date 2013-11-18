@@ -3,3 +3,5 @@ node_modules
 *.min.js.map
 *.min.css
 config.js
+locomotive-drywall-seed.sublime-project
+locomotive-drywall-seed.sublime-workspace
