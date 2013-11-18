@@ -1,39 +1,20 @@
 var locomotive = require('locomotive'),
 	Controller = locomotive.Controller;
 
-var SignupController = new Controller();
+var SocialController = new Controller();
 
-SignupController.index = function() {
-	this.oauthMessage = '';
-	this.oauthTwitter = !! this.app.get('twitter-oauth-key');
-	this.oauthGitHub = !! this.app.get('github-oauth-key');
-	this.oauthFacebook = !! this.app.get('facebook-oauth-key');
-
-	this.render();
-};
-
-SignupController.signup = function() {
+SocialController.signup = function(req, res) {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-
+	
 	var workflow = self.app.utility.workflow(req, res);
 
 	workflow.on('validate', function() {
-		if (!req.body.username) {
-			workflow.outcome.errfor.username = 'required';
-		} else if (!/^[a-zA-Z0-9\-\_]+$/.test(req.body.username)) {
-			workflow.outcome.errfor.username = 'only use letters, numbers, \'-\', \'_\'';
-		}
-
 		if (!req.body.email) {
 			workflow.outcome.errfor.email = 'required';
 		} else if (!/^[a-zA-Z0-9\-\_\.\+]+@[a-zA-Z0-9\-\_\.]+\.[a-zA-Z0-9\-\_]+$/.test(req.body.email)) {
 			workflow.outcome.errfor.email = 'invalid email format';
-		}
-
-		if (!req.body.password) {
-			workflow.outcome.errfor.password = 'required';
 		}
 
 		if (workflow.hasErrors()) {
@@ -44,16 +25,22 @@ SignupController.signup = function() {
 	});
 
 	workflow.on('duplicateUsernameCheck', function() {
+		workflow.username = req.session.socialProfile.username;
+		if (!/^[a-zA-Z0-9\-\_]+$/.test(workflow.username)) {
+			workflow.username = workflow.username.replace(/[^a-zA-Z0-9\-\_]/g, '');
+		}
+
 		self.app.db.models.User.findOne({
-			username: req.body.username
+			username: workflow.username
 		}, function(err, user) {
 			if (err) {
 				return workflow.emit('exception', err);
 			}
 
 			if (user) {
-				workflow.outcome.errfor.username = 'username already taken';
-				return workflow.emit('response');
+				workflow.username = workflow.username + req.session.socialProfile.id;
+			} else {
+				workflow.username = workflow.username;
 			}
 
 			workflow.emit('duplicateEmailCheck');
@@ -80,14 +67,15 @@ SignupController.signup = function() {
 	workflow.on('createUser', function() {
 		var fieldsToSet = {
 			isActive: 'yes',
-			username: req.body.username,
+			username: workflow.username,
 			email: req.body.email,
-			password: self.app.db.models.User.encryptPassword(req.body.password),
 			search: [
-				req.body.username,
+				workflow.username,
 				req.body.email
 			]
 		};
+		fieldsToSet[req.session.socialProfile.provider] = req.session.socialProfile._json;
+
 		self.app.db.models.User.create(fieldsToSet, function(err, user) {
 			if (err) {
 				return workflow.emit('exception', err);
@@ -99,18 +87,21 @@ SignupController.signup = function() {
 	});
 
 	workflow.on('createAccount', function() {
+		var nameParts = req.session.socialProfile.displayName.split(' ');
 		var fieldsToSet = {
-			isVerified: self.app.get('require-account-verification') ? 'no' : 'yes',
-			'name.full': workflow.user.username,
+			isVerified: 'yes',
+			'name.first': nameParts[0],
+			'name.last': nameParts[1] || '',
+			'name.full': req.session.socialProfile.displayName,
 			user: {
 				id: workflow.user._id,
 				name: workflow.user.username
 			},
 			search: [
-				workflow.user.username
+				nameParts[0],
+				nameParts[1] || ''
 			]
 		};
-
 		self.app.db.models.Account.create(fieldsToSet, function(err, account) {
 			if (err) {
 				return workflow.emit('exception', err);
@@ -136,7 +127,7 @@ SignupController.signup = function() {
 			textPath: 'signup/email-text',
 			htmlPath: 'signup/email-html',
 			locals: {
-				username: req.body.username,
+				username: workflow.user.username,
 				email: req.body.email,
 				loginURL: 'http://' + req.headers.host + '/login/',
 				projectName: self.app.get('project-name')
@@ -152,28 +143,18 @@ SignupController.signup = function() {
 	});
 
 	workflow.on('logUserIn', function() {
-		req._passport.instance.authenticate('local', function(err, user, info) {
+		req.login(workflow.user, function(err) {
 			if (err) {
 				return workflow.emit('exception', err);
 			}
 
-			if (!user) {
-				workflow.outcome.errors.push('Login failed. That is strange.');
-				return workflow.emit('response');
-			} else {
-				req.login(user, function(err) {
-					if (err) {
-						return workflow.emit('exception', err);
-					}
-
-					workflow.outcome.defaultReturnUrl = user.defaultReturnUrl();
-					workflow.emit('response');
-				});
-			}
-		})(req, res);
+			delete req.session.socialProfile;
+			workflow.outcome.defaultReturnUrl = workflow.user.defaultReturnUrl();
+			workflow.emit('response');
+		});
 	});
 
 	workflow.emit('validate');
 };
 
-module.exports = SignupController;
+module.exports = SocialController;

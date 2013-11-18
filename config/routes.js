@@ -5,6 +5,8 @@
 // `function(req, res, next)` is also fully supported.  Consult the Locomotive
 // Guide on [routing](http://locomotivejs.org/guide/routing.html) for additional
 // information.
+var passport = require('passport');
+
 module.exports = function routes() {
 	//Basic pages
 	this.root('pages#index');
@@ -15,6 +17,19 @@ module.exports = function routes() {
 	this.post('contact', 'contact#sendMessage');
 
 	//Signup
-	this.get('signup', 'signup#index');
-	this.post('signup', 'signup#signup');
-}
+	this.namespace('signup', function() {
+		this.get('/', 'basic#index');
+		this.post('/', 'basic#signup');
+
+		this.post('social', 'social#signup');
+
+		this.get('twitter', passport.authenticate('twitter', {
+			callbackURL: '/signup/twitter/callback/'
+		}));
+		this.get('twitter/callback', 'twitter#signup');
+	});
+
+	//404
+	this.match('*', 'pages#notFound', {
+		via: ['POST', 'GET']
+	});
