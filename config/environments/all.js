@@ -69,7 +69,7 @@ module.exports = function() {
   // middleware available as separate modules.
   this.use(poweredBy('Locomotive'));
   this.use(express.logger());
-  this.use(express.favicon('/../../public/favicon.ico'));
+  this.use(express.favicon(__dirname + '/../../public/favicon.ico'));
   this.use(express.static(__dirname + '/../../public'));
   this.use(express.bodyParser());
   this.use(express.methodOverride());

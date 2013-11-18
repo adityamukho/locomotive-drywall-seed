@@ -31,13 +31,19 @@ module.exports = function routes() {
 	//Account
 	this.namespace('account', function() {
 		this.get('/', 'account#index');
+
+		//account > verification
 		this.get('verification', 'account#indexVerify');
 		this.post('verification', 'account#resendVerification');
 		this.get('verification/:token', 'account#verify');
+
+		//account > settings
+		// this.get('settings', 'account#settings');
+		// this.put()
 	});
 
 	//404 - Must be the last route to be defined!
 	this.match('*', 'pages#notFound', {
-		via: ['POST', 'GET']
+		via: ['POST', 'GET', 'PUT', 'DELETE', 'HEAD', 'TRACE', 'OPTIONS', 'PATCH']
 	});
 };

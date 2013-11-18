@@ -9,16 +9,16 @@ module.exports = function(done) {
   });
 
   //embeddable docs first
-  require('../../schema/Note')(this, mongoose);
-  require('../../schema/Status')(this, mongoose);
-  require('../../schema/StatusLog')(this, mongoose);
-  require('../../schema/Category')(this, mongoose);
+  require('../../app/schema/Note')(this, mongoose);
+  require('../../app/schema/Status')(this, mongoose);
+  require('../../app/schema/StatusLog')(this, mongoose);
+  require('../../app/schema/Category')(this, mongoose);
 
   //then regular docs
-  require('../../schema/User')(this, mongoose);
-  require('../../schema/Admin')(this, mongoose);
-  require('../../schema/AdminGroup')(this, mongoose);
-  require('../../schema/Account')(this, mongoose);
+  require('../../app/schema/User')(this, mongoose);
+  require('../../app/schema/Admin')(this, mongoose);
+  require('../../app/schema/AdminGroup')(this, mongoose);
+  require('../../app/schema/Account')(this, mongoose);
 
   done();
 }
