@@ -1,7 +1,27 @@
 {
   "name": "locomotive-drywall-seed",
+  "description": "Drywall repackaged into a Locomotive app",
   "version": "0.0.1",
-  "private": true,
+"author": {
+    "name": "Aditya Mukhopadhyay",
+    "email": "webmaster@adityamukho.com"
+  },
+  "keywords": [
+    "locomotive",
+    "drywall",
+    "mvc",
+    "user management"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:adityamukho/locomotive-drywall-seed.git"
+  },
+  "bugs": {
+    "url": "https://github.com/adityamukho/locomotive-drywall-seed/issues"
+  },
+  "license": {
+    "type": "mit"
+  },
   "dependencies": {
     "async": "~0.2.9",
     "locomotive": "0.3.x",

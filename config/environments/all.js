@@ -4,40 +4,7 @@ var express = require('express'),
   mongoStore = require('connect-mongo')(express),
   util = require('util');
 
-var config = {};
-config.mongodb = {
-  uri: process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'localhost/drywall'
-};
-config.cryptoKey = 'k3yb0ardc4t';
-config.companyName = 'Acme, Inc.';
-config.projectName = 'Drywall';
-config.systemEmail = 'your@email.addy';
-config.smtp = {
-  from: {
-    name: process.env.SMTP_FROM_NAME || config.projectName + ' Website',
-    address: process.env.SMTP_FROM_ADDRESS || 'your@email.addy'
-  },
-  credentials: {
-    user: process.env.SMTP_USERNAME || 'your@email.addy',
-    password: process.env.SMTP_PASSWORD || 'bl4rg!',
-    host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    ssl: true
-  }
-};
-config.oauth = {
-  twitter: {
-    key: process.env.TWITTER_OAUTH_KEY || '',
-    secret: process.env.TWITTER_OAUTH_SECRET || ''
-  },
-  facebook: {
-    key: process.env.FACEBOOK_OAUTH_KEY || '',
-    secret: process.env.FACEBOOK_OAUTH_SECRET || ''
-  },
-  github: {
-    key: process.env.GITHUB_OAUTH_KEY || '',
-    secret: process.env.GITHUB_OAUTH_SECRET || ''
-  }
-};
+var config = require('../config');
 
 module.exports = function() {
   // Warn of version mismatch between global "lcm" binary and local installation

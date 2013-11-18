@@ -1,6 +1,8 @@
 var passport = require('passport');
 
 module.exports = function(done) {
+	var self = this;
+	
 	var LocalStrategy = require('passport-local').Strategy,
 		TwitterStrategy = require('passport-twitter').Strategy,
 		GitHubStrategy = require('passport-github').Strategy,
@@ -17,7 +19,7 @@ module.exports = function(done) {
 				conditions.email = username;
 			}
 
-			this.db.models.User.findOne(conditions, function(err, user) {
+			self.db.models.User.findOne(conditions, function(err, user) {
 				if (err) {
 					return done(err);
 				}
@@ -28,7 +30,7 @@ module.exports = function(done) {
 					});
 				}
 
-				var encryptedPassword = this.db.models.User.encryptPassword(password);
+				var encryptedPassword = self.db.models.User.encryptPassword(password);
 				if (user.password !== encryptedPassword) {
 					return done(null, false, {
 						message: 'Invalid password'
@@ -40,10 +42,10 @@ module.exports = function(done) {
 		}
 	));
 
-	if (this.get('twitter-oauth-key')) {
+	if (self.get('twitter-oauth-key')) {
 		passport.use(new TwitterStrategy({
-				consumerKey: this.get('twitter-oauth-key'),
-				consumerSecret: this.get('twitter-oauth-secret')
+				consumerKey: self.get('twitter-oauth-key'),
+				consumerSecret: self.get('twitter-oauth-secret')
 			},
 			function(token, tokenSecret, profile, done) {
 				done(null, false, {
@@ -55,12 +57,12 @@ module.exports = function(done) {
 		));
 	}
 
-	if (this.get('github-oauth-key')) {
+	if (self.get('github-oauth-key')) {
 		passport.use(new GitHubStrategy({
-				clientID: this.get('github-oauth-key'),
-				clientSecret: this.get('github-oauth-secret'),
+				clientID: self.get('github-oauth-key'),
+				clientSecret: self.get('github-oauth-secret'),
 				customHeaders: {
-					"User-Agent": this.get('project-name')
+					"User-Agent": self.get('project-name')
 				}
 			},
 			function(accessToken, refreshToken, profile, done) {
@@ -73,10 +75,10 @@ module.exports = function(done) {
 		));
 	}
 
-	if (this.get('facebook-oauth-key')) {
+	if (self.get('facebook-oauth-key')) {
 		passport.use(new FacebookStrategy({
-				clientID: this.get('facebook-oauth-key'),
-				clientSecret: this.get('facebook-oauth-secret')
+				clientID: self.get('facebook-oauth-key'),
+				clientSecret: self.get('facebook-oauth-secret')
 			},
 			function(accessToken, refreshToken, profile, done) {
 				done(null, false, {
@@ -93,7 +95,7 @@ module.exports = function(done) {
 	});
 
 	passport.deserializeUser(function(id, done) {
-		this.db.models.User.findOne({
+		self.db.models.User.findOne({
 			_id: id
 		}).populate('roles.admin').populate('roles.account').exec(function(err, user) {
 			if (user.roles && user.roles.admin) {
