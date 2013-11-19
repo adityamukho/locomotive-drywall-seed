@@ -10,6 +10,7 @@ PagesController.notFound = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
+	var next = self.next;
 
 	res.status(404);
 	self.respond({
@@ -22,6 +23,16 @@ PagesController.notFound = function() {
 			self.render('http/404');
 		}
 	});
+};
+
+PagesController.logout = function() {
+	var self = this;
+	var req = self.req;
+	var res = self.res;
+	var next = self.next;
+
+	req.logout();
+	self.redirect('/');
 };
 
 function defaultRender() {

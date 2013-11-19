@@ -9,6 +9,9 @@ AccountController.index = function() {
 
 require('../../ext/account/verification')(AccountController);
 require('../../ext/account/settings')(AccountController);
+require('../../ext/account/twitter')(AccountController);
+require('../../ext/account/github')(AccountController);
+require('../../ext/account/facebook')(AccountController);
 
 //Wildcard filter must be defined AFTER all action definitions!!
 AccountController.before('*', function(next) {

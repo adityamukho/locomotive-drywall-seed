@@ -16,6 +16,7 @@ SignupController.signup = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
+	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 
@@ -176,10 +177,11 @@ SignupController.signup = function() {
 	workflow.emit('validate');
 };
 
-SignupController.socialSignup = function(req, res) {
+SignupController.signupSocial = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
+	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 
@@ -329,5 +331,7 @@ SignupController.socialSignup = function(req, res) {
 
 	workflow.emit('validate');
 };
+
+require('../../ext/signup/oauth')(SignupController);
 
 module.exports = SignupController;

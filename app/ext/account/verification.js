@@ -3,6 +3,7 @@ module.exports = function(AccountController) {
 		var self = this;
 		var req = self.req;
 		var res = self.res;
+		var next = self.next;
 
 		if (req.user.roles.account.isVerified === 'yes') {
 			self.redirect(req.user.defaultReturnUrl());
@@ -51,6 +52,7 @@ module.exports = function(AccountController) {
 		var self = this;
 		var req = self.req;
 		var res = self.res;
+		var next = self.next;
 
 		if (req.user.roles.account.isVerified === 'yes') {
 			return self.redirect(req.user.defaultReturnUrl());
@@ -138,6 +140,7 @@ module.exports = function(AccountController) {
 		var self = this;
 		var req = self.req;
 		var res = self.res;
+		var next = self.next;
 
 		var conditions = {
 			_id: req.user.roles.account.id,
