@@ -30,7 +30,7 @@ AdminController.index = function() {
 			return next(err);
 		}
 
-		self.render('admin/index');
+		self.render();
 	};
 
 	require('async').parallel(queries, asyncFinally);

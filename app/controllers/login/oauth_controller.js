@@ -22,7 +22,7 @@ OauthController.loginTwitter = function() {
 			}
 
 			if (!user) {
-				self.returnUrl = self.param('returnUrl') || '/';
+				self.returnUrl = req.query.returnUrl || '/';
 				self.oauthMessage = 'No users found linked to your Twitter account. You may need to create an account first.';
 				self.oauthTwitter = !! self.app.get('twitter-oauth-key');
 				self.oauthGitHub = !! self.app.get('github-oauth-key');
@@ -60,7 +60,7 @@ OauthController.loginGitHub = function() {
 			}
 
 			if (!user) {
-				self.returnUrl = self.param('returnUrl') || '/';
+				self.returnUrl = req.query.returnUrl || '/';
 				self.oauthMessage = 'No users found linked to your GitHub account. You may need to create an account first.';
 				self.oauthTwitter = !! self.app.get('twitter-oauth-key');
 				self.oauthGitHub = !! self.app.get('github-oauth-key');
@@ -100,7 +100,7 @@ OauthController.loginFacebook = function() {
 			}
 
 			if (!user) {
-				self.returnUrl = self.param('returnUrl') || '/';
+				self.returnUrl = req.query.returnUrl || '/';
 				self.oauthMessage = 'No users found linked to your Facebook account. You may need to create an account first.';
 				self.oauthTwitter = !! self.app.get('twitter-oauth-key');
 				self.oauthGitHub = !! self.app.get('github-oauth-key');

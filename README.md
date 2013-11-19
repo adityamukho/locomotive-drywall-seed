@@ -3,7 +3,7 @@
 # Locomotive-Drywall Seed
 [Drywall](http://jedireza.github.io/drywall/) repackaged into a [Locomotive](http://locomotivejs.org/) app.
 
-An attempt to merge the MVC architecture and superior routing of [Locomotive](http://locomotivejs.org/) with the ready-to-use UI and user management of [Drywall](http://jedireza.github.io/drywall/).
+An attempt to merge the MVC architecture and advanced routing of [Locomotive](http://locomotivejs.org/) with the ready-to-use UI and user management of [Drywall](http://jedireza.github.io/drywall/).
 
 **This is very much a work in progress at the moment.**
 

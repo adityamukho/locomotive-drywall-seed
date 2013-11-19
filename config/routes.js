@@ -93,10 +93,10 @@ module.exports = function routes() {
 	this.get('logout', 'pages#logout');
 
 	//Admin
+	this.match('admin/*', ensureAuthenticated);
+	this.match('admin/*', ensureAdmin);
+	this.get('admin', 'admin#index');
 	this.namespace('admin', function() {
-		this.match('/*', ensureAuthenticated);
-		this.match('/*', ensureAdmin);
-		this.get('/', 'admin#index');
 
 		// //admin > users
 		// this.get('users', require('./views/admin/users/index').find);

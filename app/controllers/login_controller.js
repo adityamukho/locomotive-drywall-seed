@@ -12,7 +12,7 @@ LoginController.index = function() {
 	if (req.isAuthenticated()) {
 		self.redirect(req.user.defaultReturnUrl());
 	} else {
-		self.returnUrl = self.param('returnUrl') || '/';
+		self.returnUrl = req.query.returnUrl || '/';
 		self.oauthMessage = '';
 		self.oauthTwitter = !! self.app.get('twitter-oauth-key');
 		self.oauthGitHub = !! self.app.get('github-oauth-key');
