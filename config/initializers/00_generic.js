@@ -9,33 +9,56 @@ module.exports = function() {
 	// finished.  Initializers are invoked sequentially, ensuring that the
 	// previous one has completed before the next one executes.
 
-	//Auth middleware
-	this.auth = {};
+	this.helpers = {};
+	
+	this.helpers.renderSettings = function(ctrl, oauthMessage) {
+		var req = ctrl.req;
+		var res = ctrl.res;
+		var next = ctrl.next;
 
-	this.auth.ensureAuthenticated = function(req, res, next) {
-		if (req.isAuthenticated()) {
-			return next();
-		}
-		res.set('X-Auth-Required', 'true');
-		res.redirect('/login/?returnUrl=' + encodeURIComponent(req.originalUrl));
-	};
+		var outcome = {};
 
-	this.auth.ensureAdmin = function(req, res, next) {
-		if (req.user.canPlayRoleOf('admin')) {
-			return next();
-		}
-		res.redirect('/');
-	};
-
-	this.auth.ensureAccount = function(req, res, next) {
-		if (req.user.canPlayRoleOf('account')) {
-			if (req.app.get('require-account-verification')) {
-				if (req.user.roles.account.isVerified !== 'yes' && !/^\/account\/verification\//.test(req.url)) {
-					return res.redirect('/account/verification/');
+		var getAccountData = function(callback) {
+			ctrl.app.db.models.Account.findById(req.user.roles.account.id, 'name company phone zip').exec(function(err, account) {
+				if (err) {
+					return callback(err, null);
 				}
+
+				outcome.account = account;
+				callback(null, 'done');
+			});
+		};
+
+		var getUserData = function(callback) {
+			ctrl.app.db.models.User.findById(req.user.id, 'username email twitter.id github.id facebook.id').exec(function(err, user) {
+				if (err) {
+					callback(err, null);
+				}
+
+				outcome.user = user;
+				return callback(null, 'done');
+			});
+		};
+
+		var asyncFinally = function(err, results) {
+			if (err) {
+				return next(err);
 			}
-			return next();
-		}
-		res.redirect('/');
+
+			ctrl.data = {
+				account: escape(JSON.stringify(outcome.account)),
+				user: escape(JSON.stringify(outcome.user))
+			};
+			ctrl.oauthMessage = oauthMessage;
+			ctrl.oauthTwitter = !! ctrl.app.get('twitter-oauth-key');
+			ctrl.oauthTwitterActive = outcome.user.twitter ? !! outcome.user.twitter.id : false;
+			ctrl.oauthGitHub = !! ctrl.app.get('github-oauth-key');
+			ctrl.oauthGitHubActive = outcome.user.github ? !! outcome.user.github.id : false;
+			ctrl.oauthFacebook = !! ctrl.app.get('facebook-oauth-key');
+			ctrl.oauthFacebookActive = outcome.user.facebook ? !! outcome.user.facebook.id : false;
+			ctrl.render('account/settings/index');
+		};
+
+		require('async').parallel([getAccountData, getUserData], asyncFinally);
 	};
 }

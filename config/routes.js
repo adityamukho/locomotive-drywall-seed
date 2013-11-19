@@ -5,7 +5,35 @@
 // `function(req, res, next)` is also fully supported.  Consult the Locomotive
 // Guide on [routing](http://locomotivejs.org/guide/routing.html) for additional
 // information.
+
 var passport = require('passport');
+
+var ensureAuthenticated = function(req, res, next) {
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	res.set('X-Auth-Required', 'true');
+	res.redirect('/login/?returnUrl=' + encodeURIComponent(req.originalUrl));
+};
+
+var ensureAdmin = function(req, res, next) {
+	if (req.user.canPlayRoleOf('admin')) {
+		return next();
+	}
+	res.redirect('/');
+};
+
+var ensureAccount = function(req, res, next) {
+	if (req.user.canPlayRoleOf('account')) {
+		if (req.app.get('require-account-verification')) {
+			if (req.user.roles.account.isVerified !== 'yes' && !/^\/account\/verification\//.test(req.url)) {
+				return res.redirect('/account/verification/');
+			}
+		}
+		return next();
+	}
+	res.redirect('/');
+};
 
 module.exports = function routes() {
 	//Basic pages
@@ -17,85 +45,151 @@ module.exports = function routes() {
 	this.post('contact', 'contact#sendMessage');
 
 	//Signup
+	this.get('signup', 'signup#index');
+	this.post('signup', 'signup#signup');
+	this.post('signup/social', 'signup#signupSocial');
 	this.namespace('signup', function() {
-		this.get('/', 'signup#index');
-		this.post('/', 'signup#signup');
-
 		//social signup
-		this.post('social', 'signup#signupSocial');
 		this.get('twitter', passport.authenticate('twitter', {
 			callbackURL: '/signup/twitter/callback/'
 		}));
-		this.get('twitter/callback', 'signup#signupTwitter');
+		this.get('twitter/callback', 'oauth#signupTwitter');
 		this.get('github', passport.authenticate('github', {
 			callbackURL: '/signup/github/callback/'
 		}));
-		this.get('github/callback', 'signup#signupGitHub');
+		this.get('github/callback', 'oauth#signupGitHub');
 		this.get('facebook', passport.authenticate('facebook', {
 			callbackURL: '/signup/facebook/callback/'
 		}));
-		this.get('facebook/callback', 'signup#signupFacebook');
+		this.get('facebook/callback', 'oauth#signupFacebook');
 	});
 
 	//Login
+	this.get('login', 'login#index');
+	this.post('login', 'login#login');
 	this.namespace('login', function() {
-		this.get('/', 'login#index');
-		this.post('/', 'login#login');
-		this.get('forgot', 'login#forgot');
-		this.post('forgot', 'login#send');
-		this.get('reset', 'login#reset');
-		this.get('reset/:token', 'login#reset');
-		this.put('reset/:token', 'login#set');
+		this.get('forgot', 'forgot#index');
+		this.post('forgot', 'forgot#send');
+		this.get('reset', 'reset#index');
+		this.get('reset/:token', 'reset#index');
+		this.put('reset/:token', 'reset#set');
 
 		//social login
 		this.get('twitter', passport.authenticate('twitter', {
 			callbackURL: '/login/twitter/callback/'
 		}));
-		this.get('twitter/callback', 'login#loginTwitter');
+		this.get('twitter/callback', 'oauth#loginTwitter');
 		this.get('github', passport.authenticate('github', {
 			callbackURL: '/login/github/callback/'
 		}));
-		this.get('github/callback', 'login#loginGitHub');
+		this.get('github/callback', 'oauth#loginGitHub');
 		this.get('facebook', passport.authenticate('facebook', {
 			callbackURL: '/login/facebook/callback/'
 		}));
-		this.get('facebook/callback', 'login#loginFacebook');
+		this.get('facebook/callback', 'oauth#loginFacebook');
 	});
 
 	//Logout
 	this.get('logout', 'pages#logout');
 
-	//Account
-	this.namespace('account', function() {
-		this.get('/', 'account#index');
+	//Admin
+	this.namespace('admin', function() {
+		this.match('/*', ensureAuthenticated);
+		this.match('/*', ensureAdmin);
+		this.get('/', 'admin#index');
 
+		// //admin > users
+		// this.get('users', require('./views/admin/users/index').find);
+		// this.post('users', require('./views/admin/users/index').create);
+		// this.get('users/:id', require('./views/admin/users/index').read);
+		// this.put('users/:id', require('./views/admin/users/index').update);
+		// this.put('users/:id/password', require('./views/admin/users/index').password);
+		// this.put('users/:id/role-admin', require('./views/admin/users/index').linkAdmin);
+		// this.delete('users/:id/role-admin', require('./views/admin/users/index').unlinkAdmin);
+		// this.put('users/:id/role-account', require('./views/admin/users/index').linkAccount);
+		// this.delete('users/:id/role-account', require('./views/admin/users/index').unlinkAccount);
+		// this.delete('users/:id', require('./views/admin/users/index').delete);
+
+		// //admin > administrators
+		// this.get('administrators', require('./views/admin/administrators/index').find);
+		// this.post('administrators', require('./views/admin/administrators/index').create);
+		// this.get('administrators/:id', require('./views/admin/administrators/index').read);
+		// this.put('administrators/:id', require('./views/admin/administrators/index').update);
+		// this.put('administrators/:id/permissions', require('./views/admin/administrators/index').permissions);
+		// this.put('administrators/:id/groups', require('./views/admin/administrators/index').groups);
+		// this.put('administrators/:id/user', require('./views/admin/administrators/index').linkUser);
+		// this.delete('administrators/:id/user', require('./views/admin/administrators/index').unlinkUser);
+		// this.delete('administrators/:id', require('./views/admin/administrators/index').delete);
+
+		// //admin > admin groups
+		// this.get('admin-groups', require('./views/admin/admin-groups/index').find);
+		// this.post('admin-groups', require('./views/admin/admin-groups/index').create);
+		// this.get('admin-groups/:id', require('./views/admin/admin-groups/index').read);
+		// this.put('admin-groups/:id', require('./views/admin/admin-groups/index').update);
+		// this.put('admin-groups/:id/permissions', require('./views/admin/admin-groups/index').permissions);
+		// this.delete('admin-groups/:id', require('./views/admin/admin-groups/index').delete);
+
+		// //admin > accounts
+		// this.get('accounts', require('./views/admin/accounts/index').find);
+		// this.post('accounts', require('./views/admin/accounts/index').create);
+		// this.get('accounts/:id', require('./views/admin/accounts/index').read);
+		// this.put('accounts/:id', require('./views/admin/accounts/index').update);
+		// this.put('accounts/:id/user', require('./views/admin/accounts/index').linkUser);
+		// this.delete('accounts/:id/user', require('./views/admin/accounts/index').unlinkUser);
+		// this.post('accounts/:id/notes', require('./views/admin/accounts/index').newNote);
+		// this.post('accounts/:id/status', require('./views/admin/accounts/index').newStatus);
+		// this.delete('accounts/:id', require('./views/admin/accounts/index').delete);
+
+		// //admin > statuses
+		// this.get('statuses', require('./views/admin/statuses/index').find);
+		// this.post('statuses', require('./views/admin/statuses/index').create);
+		// this.get('statuses/:id', require('./views/admin/statuses/index').read);
+		// this.put('statuses/:id', require('./views/admin/statuses/index').update);
+		// this.delete('statuses/:id', require('./views/admin/statuses/index').delete);
+
+		// //admin > categories
+		// this.get('categories', require('./views/admin/categories/index').find);
+		// this.post('categories', require('./views/admin/categories/index').create);
+		// this.get('categories/:id', require('./views/admin/categories/index').read);
+		// this.put('categories/:id', require('./views/admin/categories/index').update);
+		// this.delete('categories/:id', require('./views/admin/categories/index').delete);
+
+		// //admin > search
+		// this.get('search', require('./views/admin/search/index').find);
+	});
+
+	//Account
+	this.match('account/*', ensureAuthenticated);
+	this.match('account/*', ensureAccount);
+	this.get('account/', 'account#index');
+	this.namespace('account', function() {
 		//account > verification
-		this.get('verification', 'account#indexVerify');
-		this.post('verification', 'account#resendVerification');
-		this.get('verification/:token', 'account#verify');
+		this.get('verification', 'verification#index');
+		this.post('verification', 'verification#resendVerification');
+		this.get('verification/:token', 'verification#verify');
 
 		//account > settings
-		this.get('settings', 'account#settings');
-		this.put('settings', 'account#updateSettings');
-		this.put('settings/identity', 'account#identity');
-		this.put('settings/password', 'account#password');
+		this.get('settings', 'settings#settings');
+		this.put('settings', 'settings#update');
+		this.put('settings/identity', 'settings#identity');
+		this.put('settings/password', 'settings#password');
 
 		//account > settings > social
 		this.get('settings/twitter/', passport.authenticate('twitter', {
 			callbackURL: '/account/settings/twitter/callback/'
 		}));
-		this.get('settings/twitter/callback', 'account#connectTwitter');
-		this.get('settings/twitter/disconnect', 'account#disconnectTwitter');
+		this.get('settings/twitter/callback', 'twitter#connectTwitter');
+		this.get('settings/twitter/disconnect', 'twitter#disconnectTwitter');
 		this.get('settings/github/', passport.authenticate('github', {
 			callbackURL: '/account/settings/github/callback/'
 		}));
-		this.get('settings/github/callback', 'account#connectGitHub');
-		this.get('settings/github/disconnect', 'account#disconnectGitHub');
+		this.get('settings/github/callback', 'github#connectGitHub');
+		this.get('settings/github/disconnect', 'github#disconnectGitHub');
 		this.get('settings/facebook', passport.authenticate('facebook', {
 			callbackURL: '/account/settings/facebook/callback/'
 		}));
-		this.get('settings/facebook/callback', 'account#connectFacebook');
-		this.get('settings/facebook/disconnect', 'account#disconnectFacebook');
+		this.get('settings/facebook/callback', 'facebook#connectFacebook');
+		this.get('settings/facebook/disconnect', 'facebook#disconnectFacebook');
 	});
 
 	//404 - Must be the last route to be defined!

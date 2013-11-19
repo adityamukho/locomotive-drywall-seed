@@ -9,7 +9,7 @@ SignupController.index = function() {
 	this.oauthGitHub = !! this.app.get('github-oauth-key');
 	this.oauthFacebook = !! this.app.get('facebook-oauth-key');
 
-	this.render('signup/index');
+	this.render();
 };
 
 SignupController.signup = function() {
@@ -331,7 +331,5 @@ SignupController.signupSocial = function() {
 
 	workflow.emit('validate');
 };
-
-require('../../ext/signup/oauth')(SignupController);
 
 module.exports = SignupController;

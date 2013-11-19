@@ -17,7 +17,7 @@ LoginController.index = function() {
 		self.oauthTwitter = !! self.app.get('twitter-oauth-key');
 		self.oauthGitHub = !! self.app.get('github-oauth-key');
 		self.oauthFacebook = !! self.app.get('facebook-oauth-key');
-		self.render('login/index');
+		self.render();
 	}
 };
 
@@ -69,9 +69,5 @@ LoginController.login = function() {
 
 	workflow.emit('validate');
 };
-
-require('../../ext/login/forgot')(LoginController);
-require('../../ext/login/reset')(LoginController);
-require('../../ext/login/oauth')(LoginController);
 
 module.exports = LoginController;
