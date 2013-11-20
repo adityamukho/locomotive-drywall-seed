@@ -2,6 +2,7 @@
   "name": "locomotive-drywall-seed",
   "description": "Drywall repackaged into a Locomotive app",
   "version": "0.0.0",
+  "main": "server.js",
   "author": {
     "name": "Aditya Mukhopadhyay",
     "email": "webmaster@adityamukho.com"
