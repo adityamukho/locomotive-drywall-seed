@@ -109,13 +109,13 @@ module.exports = function routes() {
 		this.delete('users/:id/role-account', 'users#unlinkAccount');
 
 		// //admin > administrators
-		// this.resources('administrators', {
-		// 	only: ['index', 'create', 'show', 'update', 'destroy']
-		// });
-		// this.put('administrators/:id/permissions', 'administrators#permissions');
-		// this.put('administrators/:id/groups', 'administrators#groups');
-		// this.put('administrators/:id/user', 'administrators#linkUser');
-		// this.delete('administrators/:id/user', 'administrators#unlinkUser');
+		this.resources('administrators', {
+			only: ['index', 'create', 'show', 'update', 'destroy']
+		});
+		this.put('administrators/:id/permissions', 'administrators#permissions');
+		this.put('administrators/:id/groups', 'administrators#groups');
+		this.put('administrators/:id/user', 'administrators#linkUser');
+		this.delete('administrators/:id/user', 'administrators#unlinkUser');
 
 		// //admin > admin groups
 		this.resources('admin-groups', {
