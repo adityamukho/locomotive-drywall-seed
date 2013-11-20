@@ -5,8 +5,18 @@
 
 An attempt to merge the MVC architecture and advanced routing of [Locomotive](http://locomotivejs.org/) with the ready-to-use UI and user management of [Drywall](http://jedireza.github.io/drywall/).
 
-**This is very much a work in progress at the moment.**
+# Installation
 
-When it is ready, you should be able to clone this repo (already structured as per `lcm create`) and start coding directly as with any Locomotive app, except that you will start with drywall functionality available out of the box!
+1. `$ git clone https://github.com/adityamukho/locomotive-drywall-seed`
+1. Copy `config/config.example.js` to `config/config.js` and edit to your liking.
+1. `$ npm install`
+1. Build the minified resources inside the `public` folder:
+	`$ ./run.js build`
+1. Run the server:
+	`$ ./run.js`
+	or
+	`$ npm start`
+	or
+	`$ node ./server.js`
 
-Further documentation coming soon.
+Check the [Locomotive](http://locomotivejs.org/) docs at http://locomotivejs.org/guide/.
