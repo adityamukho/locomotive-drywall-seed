@@ -136,7 +136,7 @@ AdministratorsController.show = function() {
 					record: escape(JSON.stringify(outcome.record)),
 					adminGroups: outcome.adminGroups
 				};
-				self.render('admin/administrators/details');
+				self.render('details');
 			}
 		});
 	};

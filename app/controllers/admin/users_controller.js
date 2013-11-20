@@ -140,7 +140,7 @@ UsersController.show = function() {
 				self.data = {
 					record: escape(JSON.stringify(user))
 				};
-				self.render('admin/users/details');
+				self.render('details');
 			}
 		});
 	});

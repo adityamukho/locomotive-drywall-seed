@@ -118,35 +118,29 @@ module.exports = function routes() {
 		this.delete('administrators/:id/user', 'administrators#unlinkUser');
 
 		// //admin > admin groups
-		// this.resources('admin-groups', {
-		// 	only: ['index', 'create', 'show', 'update', 'destroy']
-		// });
-		// this.put('admin-groups/:id/permissions', require('./views/admin/admin-groups/index').permissions);
+		this.resources('admin-groups', {
+			only: ['index', 'create', 'show', 'update', 'destroy']
+		});
+		this.put('admin-groups/:id/permissions', 'admin-groups#permissions');
 
 		// //admin > accounts
-		// this.get('accounts', require('./views/admin/accounts/index').find);
-		// this.post('accounts', require('./views/admin/accounts/index').create);
-		// this.get('accounts/:id', require('./views/admin/accounts/index').read);
-		// this.put('accounts/:id', require('./views/admin/accounts/index').update);
-		// this.put('accounts/:id/user', require('./views/admin/accounts/index').linkUser);
-		// this.delete('accounts/:id/user', require('./views/admin/accounts/index').unlinkUser);
-		// this.post('accounts/:id/notes', require('./views/admin/accounts/index').newNote);
-		// this.post('accounts/:id/status', require('./views/admin/accounts/index').newStatus);
-		// this.delete('accounts/:id', require('./views/admin/accounts/index').delete);
+		this.resources('accounts', {
+			only: ['index', 'create', 'show', 'update', 'destroy']
+		});
+		this.put('accounts/:id/user', 'accounts#linkUser');
+		this.delete('accounts/:id/user', 'accounts#unlinkUser');
+		this.post('accounts/:id/notes', 'accounts#newNote');
+		this.post('accounts/:id/status', 'accounts#newStatus');
 
 		// //admin > statuses
-		// this.get('statuses', require('./views/admin/statuses/index').find);
-		// this.post('statuses', require('./views/admin/statuses/index').create);
-		// this.get('statuses/:id', require('./views/admin/statuses/index').read);
-		// this.put('statuses/:id', require('./views/admin/statuses/index').update);
-		// this.delete('statuses/:id', require('./views/admin/statuses/index').delete);
+		this.resources('statuses', {
+			only: ['index', 'create', 'show', 'update', 'destroy']
+		});
 
 		// //admin > categories
-		// this.get('categories', require('./views/admin/categories/index').find);
-		// this.post('categories', require('./views/admin/categories/index').create);
-		// this.get('categories/:id', require('./views/admin/categories/index').read);
-		// this.put('categories/:id', require('./views/admin/categories/index').update);
-		// this.delete('categories/:id', require('./views/admin/categories/index').delete);
+		this.resources('categories', {
+			only: ['index', 'create', 'show', 'update', 'destroy']
+		});
 	});
 
 	//Account
