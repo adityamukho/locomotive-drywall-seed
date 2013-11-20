@@ -7,7 +7,7 @@ An attempt to merge the MVC architecture and advanced routing of [Locomotive](ht
 
 # Installation
 
-1. `$ git clone https://github.com/adityamukho/locomotive-drywall-seed`
+1. `$ git clone https://github.com/adityamukho/locomotive-drywall-seed.git`
 1. Copy `config/config.example.js` to `config/config.js` and edit to your liking.
 1. `$ npm install`
 1. Build the minified resources inside the `public` folder:
