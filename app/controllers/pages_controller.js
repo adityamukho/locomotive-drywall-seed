@@ -20,7 +20,7 @@ PagesController.notFound = function() {
 			});
 		},
 		'html': function() {
-			self.render('http/404');
+			self.render('http/' + (req.url.indexOf('/admin') === 0 ? 'admin404' : '404'));
 		}
 	});
 };

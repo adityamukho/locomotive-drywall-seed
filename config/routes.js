@@ -96,38 +96,32 @@ module.exports = function routes() {
 	this.match('admin/*', ensureAuthenticated);
 	this.match('admin/*', ensureAdmin);
 	this.get('admin', 'admin#index');
+	this.get('admin/search', 'admin#find');
 	this.namespace('admin', function() {
-
-		// //admin > users
-		// this.get('users', require('./views/admin/users/index').find);
-		// this.post('users', require('./views/admin/users/index').create);
-		// this.get('users/:id', require('./views/admin/users/index').read);
-		// this.put('users/:id', require('./views/admin/users/index').update);
-		// this.put('users/:id/password', require('./views/admin/users/index').password);
-		// this.put('users/:id/role-admin', require('./views/admin/users/index').linkAdmin);
-		// this.delete('users/:id/role-admin', require('./views/admin/users/index').unlinkAdmin);
-		// this.put('users/:id/role-account', require('./views/admin/users/index').linkAccount);
-		// this.delete('users/:id/role-account', require('./views/admin/users/index').unlinkAccount);
-		// this.delete('users/:id', require('./views/admin/users/index').delete);
+		//admin > users
+		this.resources('users', {
+			only: ['index', 'create', 'show', 'update', 'destroy']
+		});
+		this.put('users/:id/password', 'users#password');
+		this.put('users/:id/role-admin', 'users#linkAdmin');
+		this.delete('users/:id/role-admin', 'users#unlinkAdmin');
+		this.put('users/:id/role-account', 'users#linkAccount');
+		this.delete('users/:id/role-account', 'users#unlinkAccount');
 
 		// //admin > administrators
-		// this.get('administrators', require('./views/admin/administrators/index').find);
-		// this.post('administrators', require('./views/admin/administrators/index').create);
-		// this.get('administrators/:id', require('./views/admin/administrators/index').read);
-		// this.put('administrators/:id', require('./views/admin/administrators/index').update);
-		// this.put('administrators/:id/permissions', require('./views/admin/administrators/index').permissions);
-		// this.put('administrators/:id/groups', require('./views/admin/administrators/index').groups);
-		// this.put('administrators/:id/user', require('./views/admin/administrators/index').linkUser);
-		// this.delete('administrators/:id/user', require('./views/admin/administrators/index').unlinkUser);
-		// this.delete('administrators/:id', require('./views/admin/administrators/index').delete);
+		// this.resources('administrators', {
+		// 	only: ['index', 'create', 'show', 'update', 'destroy']
+		// });
+		// this.put('administrators/:id/permissions', 'administrators#permissions');
+		// this.put('administrators/:id/groups', 'administrators#groups');
+		// this.put('administrators/:id/user', 'administrators#linkUser');
+		// this.delete('administrators/:id/user', 'administrators#unlinkUser');
 
 		// //admin > admin groups
-		// this.get('admin-groups', require('./views/admin/admin-groups/index').find);
-		// this.post('admin-groups', require('./views/admin/admin-groups/index').create);
-		// this.get('admin-groups/:id', require('./views/admin/admin-groups/index').read);
-		// this.put('admin-groups/:id', require('./views/admin/admin-groups/index').update);
-		// this.put('admin-groups/:id/permissions', require('./views/admin/admin-groups/index').permissions);
-		// this.delete('admin-groups/:id', require('./views/admin/admin-groups/index').delete);
+		this.resources('admin-groups', {
+			only: ['index', 'create', 'show', 'update', 'destroy']
+		});
+		this.put('admin-groups/:id/permissions', require('./views/admin/admin-groups/index').permissions);
 
 		// //admin > accounts
 		// this.get('accounts', require('./views/admin/accounts/index').find);
@@ -153,9 +147,6 @@ module.exports = function routes() {
 		// this.get('categories/:id', require('./views/admin/categories/index').read);
 		// this.put('categories/:id', require('./views/admin/categories/index').update);
 		// this.delete('categories/:id', require('./views/admin/categories/index').delete);
-
-		// //admin > search
-		// this.get('search', require('./views/admin/search/index').find);
 	});
 
 	//Account
