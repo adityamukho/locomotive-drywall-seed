@@ -18,5 +18,6 @@ An attempt to merge the MVC architecture and advanced routing of [Locomotive](ht
 	`$ npm start`
 	or
 	`$ node ./server.js`
+1. Follow the db setup instructions at https://github.com/jedireza/drywall#setup
 
 Check the [Locomotive](http://locomotivejs.org/) docs at http://locomotivejs.org/guide/.
