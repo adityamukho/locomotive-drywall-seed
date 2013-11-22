@@ -5,8 +5,13 @@ var locomotive = require('locomotive'),
 
 var PagesController = new Controller();
 
-PagesController.index = defaultRender(PagesController);
-PagesController.about = defaultRender(PagesController);
+PagesController.index = function() {
+	this.render();
+};
+
+PagesController.about = function() {
+	this.render();
+};
 
 PagesController.notFound = function() {
 	var self = this;
@@ -33,11 +38,5 @@ PagesController.logout = function() {
 	req.logout();
 	self.redirect('/');
 };
-
-function defaultRender(ctrl) {
-	return function() {
-		ctrl.render();
-	};
-}
 
 module.exports = PagesController;

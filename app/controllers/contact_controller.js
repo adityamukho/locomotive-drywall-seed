@@ -5,7 +5,9 @@ var locomotive = require('locomotive'),
 
 var ContactController = new Controller();
 
-ContactController.index = defaultRender(ContactController);
+ContactController.index = function() {
+	this.render();
+};
 
 ContactController.sendMessage = function() {
 	var self = this;
@@ -60,12 +62,5 @@ ContactController.sendMessage = function() {
 
 	workflow.emit('validate');
 };
-
-
-function defaultRender(ctrl) {
-	return function() {
-		ctrl.render();
-	};
-}
 
 module.exports = ContactController;
