@@ -11,13 +11,16 @@ An attempt to merge the MVC architecture and advanced routing of [Locomotive](ht
 1. Copy `config/config.example.js` to `config/config.js` and edit to your liking.
 1. `$ npm install`
 1. Build the minified resources inside the `public` folder:
-	`$ ./run.js build`
+	`$ grunt build` or `$ ./run.js build`
 1. Run the server:
-	`$ ./run.js`
-	or
-	`$ npm start`
-	or
-	`$ node ./server.js`
+	1. Development:
+		`$ grunt`
+		or
+		`$ ./run.js`
+	1. Production: `$ export NODE_ENV='production'` and
+		`$ npm start`
+		or
+		`$ node ./server.js`
 1. Follow the db setup instructions at https://github.com/jedireza/drywall#setup
 
 Check the [Locomotive](http://locomotivejs.org/) docs at http://locomotivejs.org/guide/.
