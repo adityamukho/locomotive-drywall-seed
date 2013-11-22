@@ -5,3 +5,5 @@ node_modules
 config.js
 locomotive-drywall-seed.sublime-project
 locomotive-drywall-seed.sublime-workspace
+.nodemonignore
+
