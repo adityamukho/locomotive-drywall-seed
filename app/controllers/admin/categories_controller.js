@@ -1,3 +1,5 @@
+'use strict';
+
 var locomotive = require('locomotive'),
 	Controller = locomotive.Controller;
 
@@ -54,7 +56,6 @@ CategoriesController.create = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 
@@ -125,11 +126,11 @@ CategoriesController.show = function() {
 
 		self.respond({
 			'json': function() {
-				res.json(status);
+				res.json(category);
 			},
 			'html': function() {
 				self.data = {
-					record: escape(JSON.stringify(status))
+					record: escape(JSON.stringify(category))
 				};
 				self.render('details');
 			}
@@ -141,7 +142,6 @@ CategoriesController.update = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 
@@ -187,7 +187,6 @@ CategoriesController.destroy = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 

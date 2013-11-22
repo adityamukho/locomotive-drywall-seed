@@ -1,3 +1,5 @@
+'use strict';
+
 var locomotive = require('locomotive'),
 	Controller = locomotive.Controller;
 
@@ -55,7 +57,6 @@ StatusesController.create = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 
@@ -142,7 +143,6 @@ StatusesController.update = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 
@@ -188,7 +188,6 @@ StatusesController.destroy = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 

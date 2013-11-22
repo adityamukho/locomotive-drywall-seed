@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function(done) {
 	this.utility = {};
 	this.utility.sendmail = require('../../app/utilities/sendmail');

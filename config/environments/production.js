@@ -1,4 +1,4 @@
-var express = require('express');
+'use strict';
 
 module.exports = function() {
-}
+};

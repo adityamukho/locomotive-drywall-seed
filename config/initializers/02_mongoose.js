@@ -1,3 +1,5 @@
+'use strict';
+
 var mongoose = require('mongoose');
 
 module.exports = function(done) {
@@ -21,4 +23,4 @@ module.exports = function(done) {
   require('../../app/schema/Account')(this, mongoose);
 
   done();
-}
+};

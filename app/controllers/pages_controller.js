@@ -1,16 +1,17 @@
+'use strict';
+
 var locomotive = require('locomotive'),
 	Controller = locomotive.Controller;
 
 var PagesController = new Controller();
 
-PagesController.index = defaultRender;
-PagesController.about = defaultRender;
+PagesController.index = defaultRender(PagesController);
+PagesController.about = defaultRender(PagesController);
 
 PagesController.notFound = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	res.status(404);
 	self.respond({
@@ -28,15 +29,15 @@ PagesController.notFound = function() {
 PagesController.logout = function() {
 	var self = this;
 	var req = self.req;
-	var res = self.res;
-	var next = self.next;
 
 	req.logout();
 	self.redirect('/');
 };
 
-function defaultRender() {
-	this.render();
+function defaultRender(ctrl) {
+	return function() {
+		ctrl.render();
+	};
 }
 
 module.exports = PagesController;

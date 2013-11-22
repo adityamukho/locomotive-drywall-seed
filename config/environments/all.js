@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express'),
   poweredBy = require('connect-powered-by'),
   passport = require('passport'),
@@ -103,4 +105,4 @@ module.exports = function() {
     }
     console.log(err.stack);
   });
-}
+};

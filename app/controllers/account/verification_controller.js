@@ -1,3 +1,5 @@
+'use strict';
+
 var locomotive = require('locomotive'),
 	Controller = locomotive.Controller;
 
@@ -6,8 +8,6 @@ var VerificationController = new Controller();
 VerificationController.index = function() {
 	var self = this;
 	var req = self.req;
-	var res = self.res;
-	var next = self.next;
 
 	if (req.user.roles.account.isVerified === 'yes') {
 		self.redirect(req.user.defaultReturnUrl());
@@ -56,7 +56,6 @@ VerificationController.resendVerification = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	if (req.user.roles.account.isVerified === 'yes') {
 		return self.redirect(req.user.defaultReturnUrl());
@@ -143,8 +142,6 @@ VerificationController.resendVerification = function() {
 VerificationController.verify = function() {
 	var self = this;
 	var req = self.req;
-	var res = self.res;
-	var next = self.next;
 
 	var conditions = {
 		_id: req.user.roles.account.id,

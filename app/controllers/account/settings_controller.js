@@ -1,3 +1,5 @@
+'use strict';
+
 var locomotive = require('locomotive'),
 	Controller = locomotive.Controller;
 
@@ -11,7 +13,6 @@ SettingsController.update = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 
@@ -69,7 +70,6 @@ SettingsController.identity = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 
@@ -210,7 +210,6 @@ SettingsController.password = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 

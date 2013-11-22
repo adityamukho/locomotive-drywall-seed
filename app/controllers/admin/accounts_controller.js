@@ -1,3 +1,5 @@
+'use strict';
+
 var locomotive = require('locomotive'),
 	Controller = locomotive.Controller;
 
@@ -84,7 +86,6 @@ AccountsController.create = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 
@@ -189,7 +190,6 @@ AccountsController.update = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 
@@ -247,7 +247,6 @@ AccountsController.destroy = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 
@@ -274,11 +273,10 @@ AccountsController.destroy = function() {
 	workflow.emit('validate');
 };
 
-AccountsController.linkUser = function(req, res, next) {
+AccountsController.linkUser = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 
@@ -372,7 +370,6 @@ AccountsController.unlinkUser = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 
@@ -441,7 +438,6 @@ AccountsController.newNote = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 
@@ -485,7 +481,6 @@ AccountsController.newStatus = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 

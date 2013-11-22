@@ -1,3 +1,5 @@
+'use strict';
+
 var locomotive = require('locomotive'),
 	Controller = locomotive.Controller;
 
@@ -41,10 +43,9 @@ TwitterController.connectTwitter = function() {
 	})(req, res, next);
 };
 
-TwitterController.disconnectTwitter = function(req, res, next) {
+TwitterController.disconnectTwitter = function() {
 	var self = this;
 	var req = self.req;
-	var res = self.res;
 	var next = self.next;
 
 	self.app.db.models.User.findByIdAndUpdate(req.user.id, {

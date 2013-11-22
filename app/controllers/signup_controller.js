@@ -1,3 +1,5 @@
+'use strict';
+
 var locomotive = require('locomotive'),
 	Controller = locomotive.Controller;
 
@@ -16,7 +18,6 @@ SignupController.signup = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 
@@ -181,7 +182,6 @@ SignupController.signupSocial = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 

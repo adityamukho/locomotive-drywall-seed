@@ -1,15 +1,16 @@
+'use strict';
+
 var locomotive = require('locomotive'),
 	Controller = locomotive.Controller;
 
 var ContactController = new Controller();
 
-ContactController.index = defaultRender;
+ContactController.index = defaultRender(ContactController);
 
 ContactController.sendMessage = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 
@@ -61,8 +62,10 @@ ContactController.sendMessage = function() {
 };
 
 
-function defaultRender() {
-	this.render();
+function defaultRender(ctrl) {
+	return function() {
+		ctrl.render();
+	};
 }
 
 module.exports = ContactController;

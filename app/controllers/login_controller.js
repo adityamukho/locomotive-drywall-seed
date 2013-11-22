@@ -1,3 +1,5 @@
+'use strict';
+
 var locomotive = require('locomotive'),
 	Controller = locomotive.Controller;
 
@@ -6,8 +8,6 @@ var LoginController = new Controller();
 LoginController.index = function() {
 	var self = this;
 	var req = self.req;
-	var res = self.res;
-	var next = self.next;
 
 	if (req.isAuthenticated()) {
 		self.redirect(req.user.defaultReturnUrl());
@@ -25,7 +25,6 @@ LoginController.login = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 

@@ -1,3 +1,5 @@
+'use strict';
+
 var locomotive = require('locomotive'),
 	Controller = locomotive.Controller;
 
@@ -50,7 +52,6 @@ AdminGroupsController.create = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 
@@ -131,7 +132,6 @@ AdminGroupsController.update = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 
@@ -171,7 +171,6 @@ AdminGroupsController.destroy = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 
 	var workflow = self.app.utility.workflow(req, res);
 
@@ -201,7 +200,6 @@ AdminGroupsController.permissions = function() {
 	var self = this;
 	var req = self.req;
 	var res = self.res;
-	var next = self.next;
 	
 	var workflow = self.app.utility.workflow(req, res);
 

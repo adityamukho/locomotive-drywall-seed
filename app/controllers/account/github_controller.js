@@ -1,3 +1,5 @@
+'use strict';
+
 var locomotive = require('locomotive'),
 	Controller = locomotive.Controller;
 
@@ -44,7 +46,6 @@ GithubController.connectGitHub = function() {
 GithubController.disconnectGitHub = function() {
 	var self = this;
 	var req = self.req;
-	var res = self.res;
 	var next = self.next;
 
 	self.app.db.models.User.findByIdAndUpdate(req.user.id, {

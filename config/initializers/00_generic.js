@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function() {
 	// Any files in this directory will be `require()`'ed when the application
 	// starts, and the exported function will be invoked with a `this` context of
@@ -13,7 +15,6 @@ module.exports = function() {
 	
 	this.helpers.renderSettings = function(ctrl, oauthMessage) {
 		var req = ctrl.req;
-		var res = ctrl.res;
 		var next = ctrl.next;
 
 		var outcome = {};
@@ -61,4 +62,4 @@ module.exports = function() {
 
 		require('async').parallel([getAccountData, getUserData], asyncFinally);
 	};
-}
+};

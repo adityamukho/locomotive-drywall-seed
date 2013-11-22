@@ -1,3 +1,5 @@
+'use strict';
+
 var locomotive = require('locomotive'),
 	Controller = locomotive.Controller;
 
@@ -5,8 +7,6 @@ var AdminController = new Controller();
 
 AdminController.index = function() {
 	var self = this;
-	var req = self.req;
-	var res = self.res;
 	var next = self.next;
 
 	var collections = ['User', 'Account', 'Admin', 'AdminGroup', 'Category', 'Status'];
