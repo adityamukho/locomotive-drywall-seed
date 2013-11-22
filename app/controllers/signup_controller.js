@@ -63,7 +63,7 @@ SignupController.signup = function() {
 
 	workflow.on('duplicateEmailCheck', function() {
 		self.app.db.models.User.findOne({
-			email: req.body.email
+			email: req.body.email.toLowerCase()
 		}, function(err, user) {
 			if (err) {
 				return workflow.emit('exception', err);
@@ -82,7 +82,7 @@ SignupController.signup = function() {
 		var fieldsToSet = {
 			isActive: 'yes',
 			username: req.body.username,
-			email: req.body.email,
+			email: req.body.email.toLowerCase(),
 			password: self.app.db.models.User.encryptPassword(req.body.password),
 			search: [
 				req.body.username,
@@ -224,7 +224,7 @@ SignupController.signupSocial = function() {
 
 	workflow.on('duplicateEmailCheck', function() {
 		self.app.db.models.User.findOne({
-			email: req.body.email
+			email: req.body.email.toLowerCase()
 		}, function(err, user) {
 			if (err) {
 				return workflow.emit('exception', err);
@@ -243,7 +243,7 @@ SignupController.signupSocial = function() {
 		var fieldsToSet = {
 			isActive: 'yes',
 			username: workflow.username,
-			email: req.body.email,
+			email: req.body.email.toLowerCase(),
 			search: [
 				workflow.username,
 				req.body.email

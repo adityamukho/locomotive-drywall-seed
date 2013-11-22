@@ -37,7 +37,7 @@ ForgotController.send = function() {
 		var token = require('crypto').createHash('md5').update(Math.random().toString()).digest('hex');
 
 		self.app.db.models.User.findOneAndUpdate({
-			email: req.body.email
+			email: req.body.email.toLowerCase()
 		}, {
 			resetPasswordToken: token
 		}, function(err, user) {

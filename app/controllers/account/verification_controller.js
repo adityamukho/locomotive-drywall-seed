@@ -80,7 +80,7 @@ VerificationController.resendVerification = function() {
 
 	workflow.on('duplicateEmailCheck', function() {
 		self.app.db.models.User.findOne({
-			email: req.body.email,
+			email: req.body.email.toLowerCase(),
 			_id: {
 				$ne: req.user.id
 			}
@@ -100,7 +100,7 @@ VerificationController.resendVerification = function() {
 
 	workflow.on('patchUser', function() {
 		var fieldsToSet = {
-			email: req.body.email
+			email: req.body.email.toLowerCase()
 		};
 
 		self.app.db.models.User.findByIdAndUpdate(req.user.id, fieldsToSet, function(err, user) {

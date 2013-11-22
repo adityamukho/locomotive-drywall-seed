@@ -115,7 +115,7 @@ SettingsController.identity = function() {
 
 	workflow.on('duplicateEmailCheck', function() {
 		self.app.db.models.User.findOne({
-			email: req.body.email,
+			email: req.body.email.toLowerCase(),
 			_id: {
 				$ne: req.user.id
 			}
@@ -136,7 +136,7 @@ SettingsController.identity = function() {
 	workflow.on('patchUser', function() {
 		var fieldsToSet = {
 			username: req.body.username,
-			email: req.body.email,
+			email: req.body.email.toLowerCase(),
 			search: [
 				req.body.username,
 				req.body.email

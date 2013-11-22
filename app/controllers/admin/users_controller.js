@@ -200,7 +200,7 @@ UsersController.update = function() {
 
 	workflow.on('duplicateEmailCheck', function() {
 		self.app.db.models.User.findOne({
-			email: req.body.email,
+			email: req.body.email.toLowerCase(),
 			_id: {
 				$ne: req.params.id
 			}
@@ -225,7 +225,7 @@ UsersController.update = function() {
 			email: req.body.email,
 			search: [
 				req.body.username,
-				req.body.email
+				req.body.email.toLowerCase()
 			]
 		};
 
