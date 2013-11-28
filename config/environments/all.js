@@ -23,7 +23,7 @@ module.exports = function() {
   this.set('company-name', config.companyName);
   this.set('system-email', config.systemEmail);
   this.set('crypto-key', config.cryptoKey);
-  this.set('require-account-verification', false);
+  this.set('require-account-verification', config.requireAccountVerification);
 
   //smtp settings
   this.set('smtp-from-name', config.smtp.from.name);

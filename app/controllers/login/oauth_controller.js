@@ -17,7 +17,7 @@ OauthController.loginTwitter = function() {
 		}
 
 		self.app.db.models.User.findOne({
-			'twitter.id': info.profile.id
+			'twitter.id': info.profile._json.id
 		}, function(err, user) {
 			if (err) {
 				return next(err);
@@ -55,7 +55,7 @@ OauthController.loginGitHub = function() {
 		}
 
 		self.app.db.models.User.findOne({
-			'github.id': info.profile.id
+			'github.id': info.profile._json.id
 		}, function(err, user) {
 			if (err) {
 				return next(err);
@@ -95,7 +95,7 @@ OauthController.loginFacebook = function() {
 		}
 
 		self.app.db.models.User.findOne({
-			'facebook.id': info.profile.id
+			'facebook.id': info.profile._json.id
 		}, function(err, user) {
 			if (err) {
 				return next(err);
