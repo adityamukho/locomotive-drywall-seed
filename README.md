@@ -11,12 +11,10 @@ An attempt to merge the MVC architecture and advanced routing of [Locomotive](ht
 1. Copy `config/config.example.js` to `config/config.js` and edit to your liking.
 1. `$ npm install`
 1. Build the minified resources inside the `public` folder:
-	`$ grunt build` or `$ ./run.js build`
+	`$ grunt build`
 1. Run the server:
 	1. Development:
 		`$ grunt`
-		or
-		`$ ./run.js`
 	1. Production: `$ export NODE_ENV='production'` and
 		`$ npm start`
 		or
